@@ -63,6 +63,7 @@ async function cancelFailedJobs(
   )
   for await (const item of octokit.paginate.iterator(listJobs)) {
     for (const job of item.data.jobs) {
+      core.info('Checkign job ${job.name}')
       if (job.conclusion == 'failure' && cancelLastRunOnFailedJobs.includes(job.name)) {
         core.info(`Job ${job.name} failed in run id ${runId} and it is in ${cancelLastRunOnFailedJobs}`)
         core.info(`Cancelling the whole ${runId}`)
